@@ -8,7 +8,7 @@ const featuredProducts = [
     id: "1",
     name: "Ceramic Vase",
     price: "58",
-    imageUrl: "https://images.unsplash.com/photo-1595408043396-44a8f7300182?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.unsplash.com/photo-1631125915902-d8abe9225ff2?q=80&w=2787&auto=format&fit=crop",
     category: "Ceramics"
   },
   {
@@ -22,14 +22,14 @@ const featuredProducts = [
     id: "3",
     name: "Natural Wax Candle",
     price: "38",
-    imageUrl: "https://images.unsplash.com/photo-1608181831718-c9dc5c657c6d?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.unsplash.com/photo-1674479019774-21a23e8f065e?q=80&w=2788&auto=format&fit=crop",
     category: "Candles"
   },
   {
     id: "4",
     name: "Ceramic Mug Set",
     price: "42",
-    imageUrl: "https://images.unsplash.com/photo-1530053078039-9e66258af785?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.unsplash.com/photo-1657946874620-afab95fd7505?q=80&w=2787&auto=format&fit=crop",
     category: "Ceramics"
   }
 ];
