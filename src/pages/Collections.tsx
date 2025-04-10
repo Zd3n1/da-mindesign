@@ -21,7 +21,7 @@ const collections = [
     id: "candles",
     name: "Candles",
     description: "Scented candles that create a warm and inviting atmosphere.",
-    image: "https://welpix.b-cdn.net/wp-content/uploads/2024/02/The-importance-of-qualitative-product-images.webp?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "textiles",
