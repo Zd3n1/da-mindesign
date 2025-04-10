@@ -1,0 +1,68 @@
+
+import React from "react";
+import { Button } from "@/components/ui/button";
+
+interface CategoryCardProps {
+  title: string;
+  imageUrl: string;
+  description: string;
+}
+
+const CategoryCard = ({ title, imageUrl, description }: CategoryCardProps) => {
+  return (
+    <div className="relative group overflow-hidden rounded-md">
+      <img
+        src={imageUrl}
+        alt={title}
+        className="w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent flex flex-col justify-end p-6">
+        <h3 className="text-xl font-medium text-white mb-2">{title}</h3>
+        <p className="text-white/80 text-sm mb-4 max-w-[90%]">{description}</p>
+        <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white hover:text-stone-950 w-fit">
+          Shop Now
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+const categories = [
+  {
+    title: "Ceramics",
+    imageUrl: "https://images.unsplash.com/photo-1603204077578-2e8221ac5664?q=80&w=1087&auto=format&fit=crop&ixlib=rb-4.0.3",
+    description: "Handcrafted ceramics for everyday use and special moments."
+  },
+  {
+    title: "Glassware",
+    imageUrl: "https://images.unsplash.com/photo-1550637379-b00aa827a4a8?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3",
+    description: "Elegant and minimalist glassware to elevate your table."
+  },
+  {
+    title: "Candles",
+    imageUrl: "https://images.unsplash.com/photo-1577032229840-33197a4de028?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3",
+    description: "Scented candles made from natural ingredients for a cozy atmosphere."
+  }
+];
+
+const CategorySection = () => {
+  return (
+    <section className="py-12 bg-neutral-50">
+      <div className="container">
+        <h2 className="text-2xl md:text-3xl font-medium mb-8">Shop by Category</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {categories.map((category) => (
+            <CategoryCard
+              key={category.title}
+              title={category.title}
+              imageUrl={category.imageUrl}
+              description={category.description}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default CategorySection;

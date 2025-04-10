@@ -1,0 +1,56 @@
+
+import React from "react";
+import ProductCard from "./ProductCard";
+
+const featuredProducts = [
+  {
+    id: "1",
+    name: "Ceramic Vase",
+    price: "58",
+    imageUrl: "https://images.unsplash.com/photo-1595408043396-44a8f7300182?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
+    category: "Ceramics"
+  },
+  {
+    id: "2",
+    name: "Frosted Glass Tumbler",
+    price: "24",
+    imageUrl: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3",
+    category: "Glassware"
+  },
+  {
+    id: "3",
+    name: "Natural Wax Candle",
+    price: "38",
+    imageUrl: "https://images.unsplash.com/photo-1607278967205-aa3bd5a6a3a4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
+    category: "Candles"
+  },
+  {
+    id: "4",
+    name: "Ceramic Mug Set",
+    price: "42",
+    imageUrl: "https://images.unsplash.com/photo-1530053078039-9e66258af785?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
+    category: "Ceramics"
+  }
+];
+
+const FeaturedProducts = () => {
+  return (
+    <section className="py-12">
+      <div className="container">
+        <div className="flex justify-between items-baseline mb-8">
+          <h2 className="text-2xl md:text-3xl font-medium">Featured Products</h2>
+          <a href="#" className="text-sm text-muted-foreground hover:text-primary underline">
+            View all
+          </a>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {featuredProducts.map((product) => (
+            <ProductCard key={product.id} {...product} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default FeaturedProducts;
