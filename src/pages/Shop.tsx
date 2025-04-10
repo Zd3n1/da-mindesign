@@ -45,14 +45,14 @@ const products = [
     id: "6",
     name: "Glass Carafe",
     price: "48",
-    imageUrl: "https://images.unsplash.com/photo-1536000800373-5b5e6756cd6a?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop",
     category: "Glassware"
   },
   {
     id: "7",
     name: "Scented Soy Candle",
     price: "28",
-    imageUrl: "https://images.unsplash.com/photo-1608181831718-c9dc5c657c6d?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://www.ikea.com/cz/en/images/products/svartoxbaer-scented-candle-in-glass-mimosa-yellow__1383402_pe962546_s5.jpg?q=80&w=800&auto=format&fit=crop",
     category: "Candles"
   },
   {
