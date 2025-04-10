@@ -51,7 +51,7 @@ const categories = [
   },
   {
     title: "Candles",
-    imageUrl: "https://images.unsplash.com/photo-1600428877878-1a0ff561d8ae?q=80&w=2070&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1674479019835-6253ff6d1819?q=80&w=2788&auto=format&fit=crop",
     description: "Scented candles made from natural ingredients for a cozy atmosphere."
   }
 ];

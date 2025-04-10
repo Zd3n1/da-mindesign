@@ -33,7 +33,7 @@ const collections = [
     id: "kitchen",
     name: "Kitchen",
     description: "Functional and beautiful kitchen accessories for the modern home.",
-    image: "https://images.unsplash.com/photo-1590794056180-9e5e6f18858b?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?q=80&w=2787&auto=format&fit=crop",
   },
   {
     id: "decor",
