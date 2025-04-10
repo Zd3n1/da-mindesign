@@ -69,7 +69,10 @@ const Cart = () => {
                         className="h-8 w-8" 
                         onClick={() => {
                           if (item.quantity > 1) {
-                            addToCart({ ...item, quantity: item.quantity - 1 });
+                            // Fixed: Only pass id property to the addToCart function
+                            // The function handles quantity internally
+                            const { id, name, price, imageUrl, category } = item;
+                            addToCart({ id, name, price, imageUrl, category });
                           } else {
                             removeFromCart(item.id);
                           }

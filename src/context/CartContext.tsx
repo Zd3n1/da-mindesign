@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 export interface CartItem {
@@ -42,7 +41,22 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeFromCart = (id: string) => {
-    setItems(prevItems => prevItems.filter(item => item.id !== id));
+    setItems(prevItems => {
+      // Find the item
+      const existingItem = prevItems.find(item => item.id === id);
+      
+      // If item doesn't exist or has quantity of 1, remove it
+      if (!existingItem || existingItem.quantity === 1) {
+        return prevItems.filter(item => item.id !== id);
+      }
+      
+      // Otherwise, decrease the quantity
+      return prevItems.map(item => 
+        item.id === id 
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+    });
   };
 
   const clearCart = () => {

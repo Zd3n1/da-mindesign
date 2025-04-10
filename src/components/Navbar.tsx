@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Search, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "@/context/CartContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<number>(0);
   const navigate = useNavigate();
+  const { cartCount } = useCart();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -41,9 +42,9 @@ const Navbar = () => {
           </Button>
           <Button variant="ghost" size="icon" onClick={() => navigate("/cart")} className="relative">
             <ShoppingBag className="h-5 w-5" />
-            {cartItems > 0 && (
+            {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {cartItems}
+                {cartCount}
               </span>
             )}
             <span className="sr-only">Shopping cart</span>
