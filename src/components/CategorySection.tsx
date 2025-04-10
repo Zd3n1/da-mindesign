@@ -41,17 +41,17 @@ const CategoryCard = ({ title, imageUrl, description }: CategoryCardProps) => {
 const categories = [
   {
     title: "Ceramics",
-    imageUrl: "https://images.unsplash.com/photo-1603204077578-2e8221ac5664?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=2070&auto=format&fit=crop",
     description: "Handcrafted ceramics for everyday use and special moments."
   },
   {
     title: "Glassware",
-    imageUrl: "https://images.unsplash.com/photo-1550637379-b00aa827a4a8?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=2070&auto=format&fit=crop",
     description: "Elegant and minimalist glassware to elevate your table."
   },
   {
     title: "Candles",
-    imageUrl: "https://images.unsplash.com/photo-1577032229840-33197a4de028?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1600428877878-1a0ff561d8ae?q=80&w=2070&auto=format&fit=crop",
     description: "Scented candles made from natural ingredients for a cozy atmosphere."
   }
 ];

@@ -15,14 +15,14 @@ const featuredProducts = [
     id: "2",
     name: "Frosted Glass Tumbler",
     price: "24",
-    imageUrl: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
     category: "Glassware"
   },
   {
     id: "3",
     name: "Natural Wax Candle",
     price: "38",
-    imageUrl: "https://images.unsplash.com/photo-1607278967205-aa3bd5a6a3a4?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.unsplash.com/photo-1608181831718-c9dc5c657c6d?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3",
     category: "Candles"
   },
   {

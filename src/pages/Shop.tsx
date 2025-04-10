@@ -17,14 +17,14 @@ const products = [
     id: "2",
     name: "Frosted Glass Tumbler",
     price: "24",
-    imageUrl: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop",
     category: "Glassware"
   },
   {
     id: "3",
     name: "Natural Wax Candle",
     price: "38",
-    imageUrl: "https://images.unsplash.com/photo-1607278967205-aa3bd5a6a3a4?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1603204077578-2e8221ac5664?q=80&w=800&auto=format&fit=crop",
     category: "Candles"
   },
   {
@@ -52,7 +52,7 @@ const products = [
     id: "7",
     name: "Scented Soy Candle",
     price: "28",
-    imageUrl: "https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?q=80&w=800&auto=format&fit=crop",
+    imageUrl: "https://images.unsplash.com/photo-1608181831718-c9dc5c657c6d?q=80&w=800&auto=format&fit=crop",
     category: "Candles"
   },
   {

@@ -9,7 +9,7 @@ const collections = [
     id: "ceramics",
     name: "Ceramics",
     description: "Handcrafted ceramics for everyday use and special occasions.",
-    image: "https://images.unsplash.com/photo-1605374005291-51d2851dd9f5?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "glassware",
@@ -21,25 +21,25 @@ const collections = [
     id: "candles",
     name: "Candles",
     description: "Scented candles that create a warm and inviting atmosphere.",
-    image: "https://images.unsplash.com/photo-1602178409632-ba5b7a8c7a59?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1603204077578-2e8221ac5664?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "textiles",
     name: "Textiles",
     description: "Soft, natural textiles to bring comfort to your home.",
-    image: "https://images.unsplash.com/photo-1589196728426-11086c8a9a32?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1588625500633-a0cd518f0f60?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "kitchen",
     name: "Kitchen",
     description: "Functional and beautiful kitchen accessories for the modern home.",
-    image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1590794056180-9e5e6f18858b?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "decor",
     name: "Home Decor",
     description: "Minimal decor pieces that enhance your living space.",
-    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?q=80&w=800&auto=format&fit=crop",
   },
 ];
 

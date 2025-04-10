@@ -24,7 +24,7 @@ const Hero = () => {
         </div>
         <div className="aspect-video overflow-hidden rounded-md bg-neutral-100 animate-fade-in">
           <img 
-            src="https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3" 
+            src="https://images.unsplash.com/photo-1584589167171-541ce45f1eea?q=80&w=1740&auto=format&fit=crop" 
             alt="Minimalist home goods arrangement" 
             className="object-cover w-full h-full"
             onError={(e) => {
