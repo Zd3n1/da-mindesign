@@ -21,7 +21,7 @@ const collections = [
     id: "candles",
     name: "Candles",
     description: "Scented candles that create a warm and inviting atmosphere.",
-    image: "https://unsplash.com/photos/person-holding-lighted-candle-near-green-plant-OAW0OCLn52I?q=80&w=800&auto=format&fit=crop",
+    image: "https://www.ikea.com/cz/en/images/products/svartoxbaer-scented-candle-in-glass-mimosa-yellow__1383402_pe962546_s5.jpg?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "textiles",
