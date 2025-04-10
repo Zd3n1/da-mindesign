@@ -1,6 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface CategoryCardProps {
   title: string;
@@ -9,17 +10,27 @@ interface CategoryCardProps {
 }
 
 const CategoryCard = ({ title, imageUrl, description }: CategoryCardProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="relative group overflow-hidden rounded-md">
       <img
         src={imageUrl}
         alt={title}
         className="w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.src = "https://images.unsplash.com/photo-1595408043396-44a8f7300182?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3";
+        }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent flex flex-col justify-end p-6">
         <h3 className="text-xl font-medium text-white mb-2">{title}</h3>
         <p className="text-white/80 text-sm mb-4 max-w-[90%]">{description}</p>
-        <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white hover:text-stone-950 w-fit">
+        <Button 
+          variant="outline" 
+          className="bg-transparent text-white border-white hover:bg-white hover:text-stone-950 w-fit"
+          onClick={() => navigate("/shop")}
+        >
           Shop Now
         </Button>
       </div>

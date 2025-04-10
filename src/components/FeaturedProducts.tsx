@@ -1,6 +1,7 @@
 
 import React from "react";
 import ProductCard from "./ProductCard";
+import { useNavigate } from "react-router-dom";
 
 const featuredProducts = [
   {
@@ -34,12 +35,21 @@ const featuredProducts = [
 ];
 
 const FeaturedProducts = () => {
+  const navigate = useNavigate();
+  
   return (
     <section className="py-12">
       <div className="container">
         <div className="flex justify-between items-baseline mb-8">
           <h2 className="text-2xl md:text-3xl font-medium">Featured Products</h2>
-          <a href="#" className="text-sm text-muted-foreground hover:text-primary underline">
+          <a 
+            href="#" 
+            className="text-sm text-muted-foreground hover:text-primary underline"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/shop");
+            }}
+          >
             View all
           </a>
         </div>
