@@ -32,6 +32,9 @@ const Navbar = () => {
           <a href="#" onClick={(e) => { e.preventDefault(); navigate("/about"); }} className="text-sm font-medium hover:text-primary/80 transition-colors">
             About
           </a>
+          <a href="#" onClick={(e) => { e.preventDefault(); navigate("/contact"); }} className="text-sm font-medium hover:text-primary/80 transition-colors">
+            Contact
+          </a>
         </div>
         <div className="text-xl font-semibold tracking-tight">
           <a href="/" onClick={(e) => { e.preventDefault(); navigate("/"); }}>GLOW</a>
