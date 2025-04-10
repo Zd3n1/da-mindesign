@@ -29,7 +29,7 @@ const CategoryCard = ({ title, imageUrl, description }: CategoryCardProps) => {
         <Button 
           variant="outline" 
           className="bg-transparent text-white border-white hover:bg-white hover:text-stone-950 w-fit"
-          onClick={() => navigate("/shop")}
+          onClick={() => navigate(`/shop?collection=${title.toLowerCase()}`)}
         >
           Shop Now
         </Button>
@@ -41,17 +41,17 @@ const CategoryCard = ({ title, imageUrl, description }: CategoryCardProps) => {
 const categories = [
   {
     title: "Ceramics",
-    imageUrl: "https://images.unsplash.com/photo-1603204077578-2e8221ac5664?q=80&w=1087&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.unsplash.com/photo-1603204077578-2e8221ac5664?q=80&w=800&auto=format&fit=crop",
     description: "Handcrafted ceramics for everyday use and special moments."
   },
   {
     title: "Glassware",
-    imageUrl: "https://images.unsplash.com/photo-1550637379-b00aa827a4a8?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.unsplash.com/photo-1550637379-b00aa827a4a8?q=80&w=800&auto=format&fit=crop",
     description: "Elegant and minimalist glassware to elevate your table."
   },
   {
     title: "Candles",
-    imageUrl: "https://images.unsplash.com/photo-1577032229840-33197a4de028?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.unsplash.com/photo-1577032229840-33197a4de028?q=80&w=800&auto=format&fit=crop",
     description: "Scented candles made from natural ingredients for a cozy atmosphere."
   }
 ];

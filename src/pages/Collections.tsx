@@ -9,37 +9,37 @@ const collections = [
     id: "ceramics",
     name: "Ceramics",
     description: "Handcrafted ceramics for everyday use and special occasions.",
-    image: "https://images.unsplash.com/photo-1605374005291-51d2851dd9f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1605374005291-51d2851dd9f5?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "glassware",
     name: "Glassware",
     description: "Elegant glassware that adds sophistication to your home.",
-    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "candles",
     name: "Candles",
     description: "Scented candles that create a warm and inviting atmosphere.",
-    image: "https://images.unsplash.com/photo-1602178409632-ba5b7a8c7a59?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1602178409632-ba5b7a8c7a59?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "textiles",
     name: "Textiles",
     description: "Soft, natural textiles to bring comfort to your home.",
-    image: "https://images.unsplash.com/photo-1589196728426-11086c8a9a32?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1589196728426-11086c8a9a32?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "kitchen",
     name: "Kitchen",
     description: "Functional and beautiful kitchen accessories for the modern home.",
-    image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "decor",
     name: "Home Decor",
     description: "Minimal decor pieces that enhance your living space.",
-    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
@@ -67,6 +67,10 @@ const Collections = () => {
                   src={collection.image}
                   alt={collection.name}
                   className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "https://images.unsplash.com/photo-1595408043396-44a8f7300182?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3";
+                  }}
                 />
               </div>
               <div className="p-6">
