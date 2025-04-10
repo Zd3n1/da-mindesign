@@ -21,7 +21,7 @@ const collections = [
     id: "candles",
     name: "Candles",
     description: "Scented candles that create a warm and inviting atmosphere.",
-    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=800&auto=format&fit=crop",
+    image: "https://unsplash.com/photos/person-holding-lighted-candle-near-green-plant-OAW0OCLn52I?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: "textiles",
