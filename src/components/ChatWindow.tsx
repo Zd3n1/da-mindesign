@@ -33,7 +33,7 @@ const ChatWindow = () => {
   const handleSendMessage = async () => {
     if (!input.trim() || !apiKey) return;
 
-    const userMessage = { role: "user", content: input };
+    const userMessage: Message = { role: "user", content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
@@ -59,13 +59,23 @@ const ChatWindow = () => {
       const data = await response.json();
       
       if (data.error) {
-        setMessages(prev => [...prev, { role: "assistant", content: `Error: ${data.error.message || "Something went wrong. Please try again."}` }]);
+        setMessages(prev => [...prev, { 
+          role: "assistant", 
+          content: `Error: ${data.error.message || "Something went wrong. Please try again."}` 
+        }]);
       } else if (data.choices && data.choices[0]) {
-        setMessages(prev => [...prev, { role: "assistant", content: data.choices[0].message.content }]);
+        const assistantMessage: Message = { 
+          role: "assistant", 
+          content: data.choices[0].message.content 
+        };
+        setMessages(prev => [...prev, assistantMessage]);
       }
     } catch (error) {
       console.error("Error:", error);
-      setMessages(prev => [...prev, { role: "assistant", content: "Sorry, I couldn't connect to the server. Please try again later." }]);
+      setMessages(prev => [...prev, { 
+        role: "assistant", 
+        content: "Sorry, I couldn't connect to the server. Please try again later." 
+      }]);
     } finally {
       setIsLoading(false);
     }
