@@ -65,26 +65,33 @@ const ChatWindow = () => {
     setInput("");
     setIsLoading(true);
 
-    // Create a system prompt that includes our product categories
-    const systemPrompt = `You are a helpful assistant for GLOW, a minimalist home goods store. 
-Provide concise, helpful answers about home decor, interior design, our products, and styling advice.
-Our store has these product collections:
-- Ceramics: Handcrafted ceramics for everyday use and special occasions
-- Glassware: Elegant glassware that adds sophistication to your home
-- Candles: Scented candles that create a warm and inviting atmosphere
-- Textiles: Soft, natural textiles to bring comfort to your home
-- Kitchen: Functional and beautiful kitchen accessories for the modern home
-- Home Decor: Minimal decor pieces that enhance your living space
+    // Enhanced system prompt for more concise product recommendations
+    const systemPrompt = `You are a helpful assistant for GLOW, a minimalist home goods store.
+When recommending products, be concise and specific. Always suggest 1-2 specific products from our collections that would perfectly match the customer's needs or the style in their image.
 
-If an image is shared, analyze it and suggest relevant products from our collections that would complement the style shown.`;
+For each product recommendation:
+1. Name the specific product with a distinctive name (e.g., "Ember Ceramic Mug" not just "mug")
+2. Mention its price point ($XX-$XXX range)
+3. Describe how it will transform their space in 1-2 sentences
+4. Explain the emotional impact it will have (how they'll feel when using it)
+
+Our product collections include:
+- Ceramics: Handcrafted ceramics for everyday use and special occasions. Signature items: Serene Dawn Breakfast Set ($85), Terra Collection Serving Bowls ($120), Nordic Minimalist Vases ($65-95)
+- Glassware: Elegant glassware that adds sophistication to your home. Signature items: Aurora Tinted Wine Glasses ($75/set), Crystal Clear Tumblers ($55/set), Smoky Geometric Decanters ($110)
+- Candles: Scented candles that create a warm and inviting atmosphere. Signature items: Amber & Cedar Wood Candle ($45), Sea Salt & Sage Collection ($38), Pure Beeswax Pillars ($29-59)
+- Textiles: Soft, natural textiles to bring comfort to your home. Signature items: Cloud Linen Throw Blankets ($95), Handwoven Cotton Cushion Covers ($45), Organic Hemp Table Runners ($65)
+- Kitchen: Functional and beautiful kitchen accessories for the modern home. Signature items: Olive Wood Utensil Set ($75), Marble & Brass Trivets ($60), Hand-forged Knives ($125-250)
+- Home Decor: Minimal decor pieces that enhance your living space. Signature items: Sculptural Brass Objects ($85-120), Natural Stone Bookends ($65), Floating Wall Shelves ($95-150)
+
+Keep responses under 150 words. If an image is shared, focus on suggesting items that complement the style shown.`;
 
     try {
-      let messageContent = input;
+      let chatMessages;
       
       // If there's an image, construct message content accordingly
       if (imagePreview) {
         // For OpenRouter with image, we'll use the base64 image data
-        const chatMessages = [
+        chatMessages = [
           { 
             role: "system", 
             content: systemPrompt
@@ -141,7 +148,7 @@ If an image is shared, analyze it and suggest relevant products from our collect
         }
       } else {
         // Regular text-only query
-        const chatMessages = [
+        chatMessages = [
           { role: "system", content: systemPrompt },
           ...messages.map(msg => ({ role: msg.role, content: msg.content })),
           { role: "user", content: input }
@@ -209,9 +216,9 @@ If an image is shared, analyze it and suggest relevant products from our collect
         <MessageCircle />
       </Button>
 
-      {/* Chat window */}
+      {/* Chat window - increased height */}
       {isOpen && (
-        <div className="fixed bottom-4 right-4 w-80 sm:w-96 h-[500px] bg-background border rounded-lg shadow-xl z-50 flex flex-col">
+        <div className="fixed bottom-4 right-4 w-80 sm:w-96 h-[600px] bg-background border rounded-lg shadow-xl z-50 flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">
             <h3 className="font-medium">GLOW Assistant</h3>
@@ -326,4 +333,3 @@ If an image is shared, analyze it and suggest relevant products from our collect
 };
 
 export default ChatWindow;
-
