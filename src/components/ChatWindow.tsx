@@ -39,14 +39,16 @@ const ChatWindow = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`
+          "Authorization": `Bearer ${apiKey}`,
+          "HTTP-Referer": window.location.href, // Required for OpenRouter
+          "X-Title": "GLOW Home Decor Assistant" // Optional but recommended
         },
         body: JSON.stringify({
-          model: "gpt-4o-mini",
+          model: "openai/gpt-3.5-turbo", // Default model, can be changed
           messages: [
             { role: "system", content: "You are a helpful assistant for GLOW, a minimalist home goods store. Provide concise, helpful answers about home decor, interior design, our products, and styling advice." },
             ...messages.map(msg => ({ role: msg.role, content: msg.content })),

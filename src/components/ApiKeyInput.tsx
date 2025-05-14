@@ -32,11 +32,11 @@ const ApiKeyInput = () => {
 
   return (
     <div className="p-4 bg-muted/40 rounded-lg">
-      <p className="text-sm mb-2">Enter your OpenAI API key:</p>
+      <p className="text-sm mb-2">Enter your OpenRouter API key:</p>
       <div className="flex gap-2">
         <Input 
           type="password" 
-          placeholder="OpenAI API Key" 
+          placeholder="OpenRouter API Key" 
           value={inputValue} 
           onChange={(e) => setInputValue(e.target.value)}
           className="flex-1"
