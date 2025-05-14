@@ -84,7 +84,7 @@ If an image is shared, analyze it and suggest relevant products from our collect
       // If there's an image, construct message content accordingly
       if (imagePreview) {
         // For OpenRouter with image, we'll use the base64 image data
-        const messages = [
+        const chatMessages = [
           { 
             role: "system", 
             content: systemPrompt
@@ -120,7 +120,7 @@ If an image is shared, analyze it and suggest relevant products from our collect
           },
           body: JSON.stringify({
             model: "openai/gpt-4o", // Using GPT-4o for vision capabilities
-            messages: messages,
+            messages: chatMessages,
             max_tokens: 500
           })
         });
@@ -141,6 +141,12 @@ If an image is shared, analyze it and suggest relevant products from our collect
         }
       } else {
         // Regular text-only query
+        const chatMessages = [
+          { role: "system", content: systemPrompt },
+          ...messages.map(msg => ({ role: msg.role, content: msg.content })),
+          { role: "user", content: input }
+        ];
+        
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
@@ -151,11 +157,7 @@ If an image is shared, analyze it and suggest relevant products from our collect
           },
           body: JSON.stringify({
             model: "openai/gpt-3.5-turbo", // Default model for text-only
-            messages: [
-              { role: "system", content: systemPrompt },
-              ...messages.map(msg => ({ role: msg.role, content: msg.content })),
-              { role: "user", content: input }
-            ],
+            messages: chatMessages,
             max_tokens: 500
           })
         });
@@ -324,3 +326,4 @@ If an image is shared, analyze it and suggest relevant products from our collect
 };
 
 export default ChatWindow;
+
