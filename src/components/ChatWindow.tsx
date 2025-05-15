@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -15,6 +14,15 @@ interface Message {
   content: string;
   image?: string;
 }
+
+// Sample product images from Unsplash
+const productImages = [
+  "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
+  "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
+  "https://images.unsplash.com/photo-1472396961693-142e6e269027",
+  "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1",
+  "https://images.unsplash.com/photo-1485833077593-4278bba3f11f"
+];
 
 const ChatWindow = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -146,9 +154,16 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
             content: `Error: ${data.error.message || "Something went wrong. Please try again."}` 
           }]);
         } else if (data.choices && data.choices[0]) {
+          // Randomly select a product image to include with the response
+          const randomProductImage = productImages[Math.floor(Math.random() * productImages.length)];
+          
+          // Enhance AI response with product image reference
+          let responseContent = data.choices[0].message.content;
+          responseContent = responseContent + `\n\n![Product recommendation](${randomProductImage})`;
+          
           const assistantMessage: Message = { 
             role: "assistant", 
-            content: data.choices[0].message.content 
+            content: responseContent 
           };
           setMessages(prev => [...prev, assistantMessage]);
         }
@@ -183,9 +198,16 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
             content: `Error: ${data.error.message || "Something went wrong. Please try again."}` 
           }]);
         } else if (data.choices && data.choices[0]) {
+          // Randomly select a product image to include with the response
+          const randomProductImage = productImages[Math.floor(Math.random() * productImages.length)];
+          
+          // Enhance AI response with product image reference
+          let responseContent = data.choices[0].message.content;
+          responseContent = responseContent + `\n\n![Product recommendation](${randomProductImage})`;
+          
           const assistantMessage: Message = { 
             role: "assistant", 
-            content: data.choices[0].message.content 
+            content: responseContent 
           };
           setMessages(prev => [...prev, assistantMessage]);
         }
@@ -198,10 +220,9 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
       }]);
     } finally {
       setIsLoading(false);
-      setImagePreview(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
+      
+      // Clear the image preview after sending
+      clearImage();
     }
   };
 
