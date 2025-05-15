@@ -2,10 +2,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { X, Send, MessageCircle, Image } from "lucide-react";
+import { X, Send, MessageCircle, Image, Download, Mail, Save } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useChat } from "@/context/ChatContext";
 import ApiKeyInput from "./ApiKeyInput";
+import ReactMarkdown from "react-markdown";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
 interface Message {
   role: "user" | "assistant";
@@ -21,9 +24,12 @@ const ChatWindow = () => {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+  const [email, setEmail] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { apiKey } = useChat();
+  const { toast } = useToast();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -206,6 +212,82 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
     }
   };
 
+  // Extract recommended products from the conversation
+  const extractRecommendedProducts = () => {
+    const assistantMessages = messages.filter(msg => msg.role === "assistant");
+    let productMentions = [];
+    
+    for (const msg of assistantMessages) {
+      // Look for product names and prices in the format of "Product Name ($XX)"
+      const productMatches = msg.content.match(/([A-Za-z\s&]+)(\s\(\$[\d-]+(?:\/set)?\))/g) || [];
+      productMentions = [...productMentions, ...productMatches];
+    }
+    
+    // Deduplicate the products
+    return [...new Set(productMentions)];
+  };
+
+  // Download the conversation as PDF
+  const downloadAsPDF = () => {
+    // In a real implementation, you would generate a PDF here
+    // For this example, we'll just create a text file
+    const recommendedProducts = extractRecommendedProducts();
+    
+    let conversationText = "GLOW Home Decor - Chat Summary\n\n";
+    conversationText += "Conversation:\n";
+    
+    messages.forEach(message => {
+      const role = message.role === "user" ? "You" : "GLOW Assistant";
+      conversationText += `${role}: ${message.content}\n\n`;
+    });
+    
+    if (recommendedProducts.length > 0) {
+      conversationText += "\nRecommended Products:\n";
+      recommendedProducts.forEach(product => {
+        conversationText += `- ${product}\n`;
+      });
+    }
+    
+    const blob = new Blob([conversationText], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "glow-conversation.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Conversation Saved",
+      description: "Your conversation has been downloaded as a text file."
+    });
+    
+    setIsSaveDialogOpen(false);
+  };
+
+  // Send conversation to email
+  const sendEmail = () => {
+    // In a real implementation, you would send an API request to a backend service
+    // For this example, we'll just simulate it
+    if (!email || !email.includes("@")) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    toast({
+      title: "Conversation Sent",
+      description: `Your conversation summary has been sent to ${email}.`
+    });
+    
+    setIsSaveDialogOpen(false);
+    setEmail("");
+  };
+
   return (
     <>
       {/* Chat button */}
@@ -222,9 +304,75 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">
             <h3 className="font-medium">GLOW Assistant</h3>
-            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
-              <X className="h-4 w-4" />
-            </Button>
+            <div className="flex items-center gap-2">
+              <Dialog open={isSaveDialogOpen} onOpenChange={setIsSaveDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon" title="Save Conversation">
+                    <Save className="h-4 w-4" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Save Your Conversation</DialogTitle>
+                    <DialogDescription>
+                      Download your conversation as a text file or have it sent to your email.
+                    </DialogDescription>
+                  </DialogHeader>
+                  
+                  {extractRecommendedProducts().length > 0 && (
+                    <div className="py-4">
+                      <h4 className="text-sm font-medium mb-2">Recommended Products:</h4>
+                      <ul className="text-sm space-y-1">
+                        {extractRecommendedProducts().map((product, index) => (
+                          <li key={index} className="flex items-center gap-2">
+                            <span className="bg-primary/10 text-primary rounded-full w-5 h-5 flex items-center justify-center text-xs">✓</span>
+                            {product}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-col gap-4 py-4">
+                    <div className="flex items-center gap-4">
+                      <Button onClick={downloadAsPDF} className="flex-1">
+                        <Download className="mr-2 h-4 w-4" />
+                        Download Text
+                      </Button>
+                    </div>
+                    
+                    <div className="relative">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t" />
+                      </div>
+                      <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-2 text-muted-foreground">
+                          Or get it via email
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col gap-2">
+                      <input
+                        type="email"
+                        placeholder="your@email.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                      />
+                      <Button onClick={sendEmail} variant="outline">
+                        <Mail className="mr-2 h-4 w-4" />
+                        Send to Email
+                      </Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              
+              <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
 
           {/* API Key input */}
@@ -258,7 +406,15 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
                         />
                       </div>
                     )}
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    {message.role === "assistant" ? (
+                      <div className="text-sm whitespace-pre-wrap markdown-body">
+                        <ReactMarkdown>
+                          {message.content}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    )}
                   </div>
                 </div>
               ))}
