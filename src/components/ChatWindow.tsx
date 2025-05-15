@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -15,14 +16,33 @@ interface Message {
   image?: string;
 }
 
-// Sample product images from Unsplash
-const productImages = [
-  "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9",
-  "https://images.unsplash.com/photo-1721322800607-8c38375eef04",
-  "https://images.unsplash.com/photo-1472396961693-142e6e269027",
-  "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1",
-  "https://images.unsplash.com/photo-1485833077593-4278bba3f11f"
-];
+// Product images categorized by type for more relevant recommendations
+const productImages = {
+  ceramics: [
+    "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9", // ceramic items
+    "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61" // ceramic bowls
+  ],
+  glassware: [
+    "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd", // wine glasses
+    "https://images.unsplash.com/photo-1563377176922-ffe4321b5cdb" // tumblers
+  ],
+  candles: [
+    "https://images.unsplash.com/photo-1603006905002-fb0fe48898ef", // candles
+    "https://images.unsplash.com/photo-1608802833608-747fdb8c0b15" // scented candles
+  ],
+  textiles: [
+    "https://images.unsplash.com/photo-1584346133934-2841149e9e1e", // throw blankets
+    "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace" // cushion covers
+  ],
+  kitchen: [
+    "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db", // kitchen tools
+    "https://images.unsplash.com/photo-1590794849783-d8137e1e7636" // kitchen accessories
+  ],
+  homedecor: [
+    "https://images.unsplash.com/photo-1513519245088-0e12902e5a38", // home decor
+    "https://images.unsplash.com/photo-1721322800607-8c38375eef04" // living room decor
+  ]
+};
 
 const ChatWindow = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +83,27 @@ const ChatWindow = () => {
     setImagePreview(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  // Helper function to select a relevant product image based on message content
+  const selectRelevantProductImage = (messageContent: string): string => {
+    const lowerCaseContent = messageContent.toLowerCase();
+    
+    // Check for category mentions in the message
+    if (lowerCaseContent.includes('ceramic') || lowerCaseContent.includes('bowl') || lowerCaseContent.includes('vase')) {
+      return productImages.ceramics[Math.floor(Math.random() * productImages.ceramics.length)];
+    } else if (lowerCaseContent.includes('glass') || lowerCaseContent.includes('wine') || lowerCaseContent.includes('tumbler')) {
+      return productImages.glassware[Math.floor(Math.random() * productImages.glassware.length)];
+    } else if (lowerCaseContent.includes('candle') || lowerCaseContent.includes('scent')) {
+      return productImages.candles[Math.floor(Math.random() * productImages.candles.length)];
+    } else if (lowerCaseContent.includes('textile') || lowerCaseContent.includes('blanket') || lowerCaseContent.includes('cushion') || lowerCaseContent.includes('throw')) {
+      return productImages.textiles[Math.floor(Math.random() * productImages.textiles.length)];
+    } else if (lowerCaseContent.includes('kitchen') || lowerCaseContent.includes('utensil') || lowerCaseContent.includes('knife')) {
+      return productImages.kitchen[Math.floor(Math.random() * productImages.kitchen.length)];
+    } else {
+      // Default to home decor if no specific category is detected
+      return productImages.homedecor[Math.floor(Math.random() * productImages.homedecor.length)];
     }
   };
 
@@ -154,16 +195,16 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
             content: `Error: ${data.error.message || "Something went wrong. Please try again."}` 
           }]);
         } else if (data.choices && data.choices[0]) {
-          // Randomly select a product image to include with the response
-          const randomProductImage = productImages[Math.floor(Math.random() * productImages.length)];
+          // Select relevant product image based on the response content
+          const responseContent = data.choices[0].message.content;
+          const relevantProductImage = selectRelevantProductImage(responseContent);
           
           // Enhance AI response with product image reference
-          let responseContent = data.choices[0].message.content;
-          responseContent = responseContent + `\n\n![Product recommendation](${randomProductImage})`;
+          const enhancedContent = responseContent + `\n\n![Product recommendation](${relevantProductImage})`;
           
           const assistantMessage: Message = { 
             role: "assistant", 
-            content: responseContent 
+            content: enhancedContent 
           };
           setMessages(prev => [...prev, assistantMessage]);
         }
@@ -198,16 +239,16 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
             content: `Error: ${data.error.message || "Something went wrong. Please try again."}` 
           }]);
         } else if (data.choices && data.choices[0]) {
-          // Randomly select a product image to include with the response
-          const randomProductImage = productImages[Math.floor(Math.random() * productImages.length)];
+          // Select relevant product image based on the response content
+          const responseContent = data.choices[0].message.content;
+          const relevantProductImage = selectRelevantProductImage(responseContent);
           
           // Enhance AI response with product image reference
-          let responseContent = data.choices[0].message.content;
-          responseContent = responseContent + `\n\n![Product recommendation](${randomProductImage})`;
+          const enhancedContent = responseContent + `\n\n![Product recommendation](${relevantProductImage})`;
           
           const assistantMessage: Message = { 
             role: "assistant", 
-            content: responseContent 
+            content: enhancedContent 
           };
           setMessages(prev => [...prev, assistantMessage]);
         }
