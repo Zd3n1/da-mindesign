@@ -2,13 +2,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { X, Send, MessageCircle, Image, Download, Mail, Save } from "lucide-react";
+import { X, Send, MessageCircle, Image, Download, Mail, Save, FileText } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { useChat } from "@/context/ChatContext";
 import ApiKeyInput from "./ApiKeyInput";
 import ReactMarkdown from "react-markdown";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 
 interface Message {
   role: "user" | "assistant";
@@ -54,8 +56,10 @@ const ChatWindow = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [isExporting, setIsExporting] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const chatMessagesRef = useRef<HTMLDivElement>(null);
   const { apiKey } = useChat();
   const { toast } = useToast();
 
@@ -290,42 +294,94 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
   };
 
   // Download the conversation as PDF
-  const downloadAsPDF = () => {
-    // In a real implementation, you would generate a PDF here
-    // For this example, we'll just create a text file
-    const recommendedProducts = extractRecommendedProducts();
-    
-    let conversationText = "GLOW Home Decor - Chat Summary\n\n";
-    conversationText += "Conversation:\n";
-    
-    messages.forEach(message => {
-      const role = message.role === "user" ? "You" : "GLOW Assistant";
-      conversationText += `${role}: ${message.content}\n\n`;
-    });
-    
-    if (recommendedProducts.length > 0) {
-      conversationText += "\nRecommended Products:\n";
-      recommendedProducts.forEach(product => {
-        conversationText += `- ${product}\n`;
+  const downloadAsPDF = async () => {
+    setIsExporting(true);
+    try {
+      // Create a new jsPDF instance
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
       });
+      
+      // Set up PDF content
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(16);
+      pdf.text("GLOW Home Decor - Chat Summary", 20, 20);
+      
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(12);
+      pdf.text("Conversation:", 20, 30);
+      
+      let yPosition = 40;
+      
+      // Add messages to PDF
+      messages.forEach(message => {
+        const role = message.role === "user" ? "You" : "GLOW Assistant";
+        pdf.setFont("helvetica", "bold");
+        pdf.text(`${role}:`, 20, yPosition);
+        pdf.setFont("helvetica", "normal");
+        
+        // Handle multiline text wrapping
+        const contentLines = pdf.splitTextToSize(message.content, 170);
+        pdf.text(contentLines, 20, yPosition + 6);
+        
+        // Adjust y-position based on content height
+        yPosition += 10 + (contentLines.length * 6);
+        
+        // Add page break if needed
+        if (yPosition > 270) {
+          pdf.addPage();
+          yPosition = 20;
+        }
+      });
+      
+      // Add recommended products if any
+      const recommendedProducts = extractRecommendedProducts();
+      if (recommendedProducts.length > 0) {
+        // Add page break if not enough space
+        if (yPosition > 240) {
+          pdf.addPage();
+          yPosition = 20;
+        }
+        
+        pdf.setFont("helvetica", "bold");
+        pdf.text("Recommended Products:", 20, yPosition);
+        pdf.setFont("helvetica", "normal");
+        
+        yPosition += 10;
+        
+        recommendedProducts.forEach(product => {
+          pdf.text(`• ${product}`, 20, yPosition);
+          yPosition += 8;
+          
+          // Add page break if needed
+          if (yPosition > 270) {
+            pdf.addPage();
+            yPosition = 20;
+          }
+        });
+      }
+      
+      // Save the PDF
+      pdf.save("glow-conversation.pdf");
+      
+      toast({
+        title: "Conversation Saved",
+        description: "Your conversation has been downloaded as a PDF file."
+      });
+      
+      setIsSaveDialogOpen(false);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast({
+        title: "Error",
+        description: "Failed to generate PDF. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsExporting(false);
     }
-    
-    const blob = new Blob([conversationText], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "glow-conversation.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    toast({
-      title: "Conversation Saved",
-      description: "Your conversation has been downloaded as a text file."
-    });
-    
-    setIsSaveDialogOpen(false);
   };
 
   // Send conversation to email
@@ -377,7 +433,7 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
                   <DialogHeader>
                     <DialogTitle>Save Your Conversation</DialogTitle>
                     <DialogDescription>
-                      Download your conversation as a text file or have it sent to your email.
+                      Download your conversation or have it sent to your email.
                     </DialogDescription>
                   </DialogHeader>
                   
@@ -397,9 +453,21 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
                   
                   <div className="flex flex-col gap-4 py-4">
                     <div className="flex items-center gap-4">
-                      <Button onClick={downloadAsPDF} className="flex-1">
-                        <Download className="mr-2 h-4 w-4" />
-                        Download Text
+                      <Button onClick={downloadAsPDF} className="flex-1" disabled={isExporting}>
+                        {isExporting ? (
+                          <span className="flex items-center">
+                            <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Generating...
+                          </span>
+                        ) : (
+                          <>
+                            <FileText className="mr-2 h-4 w-4" />
+                            Download PDF
+                          </>
+                        )}
                       </Button>
                     </div>
                     
@@ -446,7 +514,7 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
 
           {/* Messages */}
           <ScrollArea className="flex-1 p-4">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4" ref={chatMessagesRef}>
               {messages.map((message, i) => (
                 <div 
                   key={i} 
