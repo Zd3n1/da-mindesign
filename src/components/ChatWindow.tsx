@@ -418,7 +418,7 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
 
       {/* Chat window - increased height */}
       {isOpen && (
-        <div className="fixed bottom-4 right-4 w-80 sm:w-96 h-[600px] bg-background border rounded-lg shadow-xl z-50 flex flex-col">
+        <div className="fixed bottom-4 right-4 w-80 sm:w-96 h-[700px] bg-background border rounded-lg shadow-xl z-50 flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b">
             <h3 className="font-medium">GLOW Assistant</h3>
@@ -512,13 +512,13 @@ Keep responses under 150 words. If an image is shared, focus on suggesting items
             </div>
           )}
 
-          {/* Messages */}
-          <ScrollArea className="flex-1 p-4">
+          {/* Messages - increased height of ScrollArea */}
+          <ScrollArea className="flex-1 p-4 h-full">
             <div className="flex flex-col gap-4" ref={chatMessagesRef}>
               {messages.map((message, i) => (
                 <div 
                   key={i} 
-                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"} animate-fade-in`}
                 >
                   <div 
                     className={`max-w-[80%] p-3 rounded-lg ${
